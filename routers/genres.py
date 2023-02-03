@@ -2,7 +2,7 @@
 from ast import List
 from fastapi import APIRouter
 from config.database import Session
-from models.genres import Genre as GenresModel
+from models.genres import Genres as GenresModel
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.encoders import jsonable_encoder
 from schemas.genres import Genres
@@ -27,4 +27,14 @@ def get_genres():
     return JSONResponse(content=jsonable_encoder(result), status_code=200)
 
 
+#CREATE crear
+@genres_router.post('/genres',tags=['genres'],status_code=200)
+#funcion que recibe parametros verificados por Shemas
+def post_genres(genre:Genres):
+    #conecta a la base de datos
+    db = Session()
+    #va a servicio y ejecuta la funcion create_genres y envia una respuesta
+    GenresService(db).create_genres(genre)
+    #Si la respuesta es positiva mostrara un mensaje y status 200 ok que todo salio bien
+    return JSONResponse(content={'message':'Register genrer correctly','status_code':'200'})
 

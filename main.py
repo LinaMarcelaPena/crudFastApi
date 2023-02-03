@@ -31,9 +31,12 @@ app.include_router(genres_router)
 
 Base.metadata.create_all(bind=engine)
 
+
 @app.get('/',tags=['home'])
+
 
 
 def message():
     return HTMLResponse('<h1>Hello World</h1>')
+
 
