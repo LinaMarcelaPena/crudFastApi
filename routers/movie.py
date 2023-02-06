@@ -19,6 +19,8 @@ movie_router = APIRouter()
 def get_movies() -> Movie:
     db = Session()
     result = MovieService(db).get_movies()
+    if not result:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No hay peliculas registradas")
     return JSONResponse(content=jsonable_encoder(result), status_code=200)
 
 
@@ -26,6 +28,8 @@ def get_movies() -> Movie:
 def get_movies_for_title(title: str):
     db = Session()
     result = MovieService(db).get_movies_for_title(title)
+    if not result:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No registran peliculas con el titulo "+ str(title))
     return JSONResponse(content=jsonable_encoder(result), status_code=200)
 
 
@@ -33,6 +37,8 @@ def get_movies_for_title(title: str):
 def get_movies_for_id(id: int):
     db = Session()
     result = MovieService(db).get_movies_for_id(id)
+    if not result:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No registran peliculas con el id "+ str(id))
     return JSONResponse(content=jsonable_encoder(result), status_code=200)
 
 
@@ -40,32 +46,37 @@ def get_movies_for_id(id: int):
 def get_movies_for_country(country: str):
     db = Session()
     result = MovieService(db).get_movies_for_country(country)
+    if not result:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No registran peliculas con el pais "+ str(country))
     return JSONResponse(content=jsonable_encoder(result), status_code=200)
-
+    
 
 @movie_router.post('/movies', tags=['movies'], status_code=200, response_model=dict)
 def create_movie(movie: Movie):
     db = Session()
     MovieService(db).create_movie(movie)
-    return JSONResponse(content={"message": "Se ha registrado la pelicula", "status_code": 200})
-
+    return JSONResponse(status_code=status.HTTP_200_OK,content={"message": "Se ha registrado la pelicula"})
+    
 
 @movie_router.put('/movies{id}',tags=['movies'])
 def update_movie(id:int,movie:Movie):
     db =  Session()
     result: MovieModel = db.query(MovieModel).filter(MovieModel.id == id)
+    final = result.first()
+    if not final:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"El id "+ str(id)+" no existe")
     MovieService(db).update_movie(id,movie)
-    return JSONResponse(content={"message":"Se ha modificado la pelicula con id:"+ str(id)})
+    return JSONResponse(status_code=status.HTTP_200_OK,content={"message":"Se ha modificado la pelicula con id:"+ str(id)})
 
 
 @movie_router.delete('/movies/{id}', tags=['movies'], status_code=200)
 def delete_movie(id: int):
     db = Session()
     result: MovieModel = db.query(MovieModel).filter(MovieModel.id == id)
-    if not result:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Item not found")
+    final = result.first()
+    if not final:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"El id "+ str(id)+" no existe")
     MovieService(db).delete_movie(id)
-    return JSONResponse(status_code=200, content={"message": "Se ha eliminado la película con id:"+ str(id)})
-
-
+    return JSONResponse(status_code=status.HTTP_200_OK, content={"message": "Se ha eliminado la película con id:"+ str(id)})
+    
     

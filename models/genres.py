@@ -10,7 +10,7 @@ class Genres(Base):
 
      #campos de la tabla genres segun modelo de la base de datos
      #llave primaria o identificador
-     id = Column(Integer, primary_key=True)
+     id = Column(Integer, primary_key=True,index = True)
      #titulo
      gen_title = Column(String)
       
