@@ -9,7 +9,7 @@ class Movie(Base):
 
     __tablename__ = "movie"
 
-    id = Column(Integer,primary_key = True)
+    id = Column(Integer,primary_key = True, index = True)
     title = Column(String)
     overview = Column(String)
     year = Column(Integer)

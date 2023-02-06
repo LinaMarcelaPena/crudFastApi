@@ -4,16 +4,16 @@ from pydantic import BaseModel, Field
 
 
 class Genres(BaseModel):
-    #se colocan los datos requeridos en la tabla genres y sus caracteristicas
+    #se colocan los campos de la tabla genres y su tipo de dato
         id: Optional[int] = None
         #un titulo de tipo String maximo de 15 caracteres y minimo de 3 
         gen_title: str = Field(max_length=15,min_length=3)
         
-        #se realiza una configuracion de verficacion para validar si los dato ingresados son los correctoos
+        #se realiza una configuracion de verficacion para validar si 
+        # los datos ingresados son los correctos esto nos permite realizar una prueba
         class Config:
             schema_extra = {
                 "example":{
-                    "id":"1",
                     "gen_title": "Action"
                 }
             }
