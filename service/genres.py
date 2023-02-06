@@ -14,12 +14,20 @@ class GenresService ():
         # se realiza conexion a la base de datos y se envia una consulta al modelo
         result = self.db.query(GenresModel).all() 
         return result
+# traer la lista de generos por el titulo 
+    def get_generes_for_title(self,genre_title:str):
+        result = self.db.query(GenresModel).filter(GenresModel.gen_title == genre_title.capitalize()).all()
+        return result
+# Traer la lista de peliculas por id        
+    def get_generes_for_id(self,id:int):
+        result = self.db.query(GenresModel).filter(GenresModel.id == id).all()
+        return result    
 
 #funcion para crear generos 
     def create_genres(self, genres:GenresModel):
         new_genres = GenresModel(
             id = genres.id,
-            gen_title = genres.gen_title
+            gen_title = genres.gen_title.capitalize()
         )   
         #agregar genero
         self.db.add(new_genres)
@@ -27,4 +35,3 @@ class GenresService ():
         self.db.commit()
         return
 
-     

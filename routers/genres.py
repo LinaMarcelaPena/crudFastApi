@@ -26,6 +26,18 @@ def get_genres():
     # nos dara un codigo de status 200 que nos indica que la respuesta es positiva, OK, correcta
     return JSONResponse(content=jsonable_encoder(result), status_code=200)
 
+@genres_router.get('/genres_for_title',tags=['genres'],status_code=200)
+def get_genres_for_title(gen_title:str):
+    db = Session()
+    result = GenresService(db).get_generes_for_title(gen_title)
+    return JSONResponse(content=jsonable_encoder(result),status_code=200)
+
+@genres_router.get('/genres_for_id',tags=['genres'],status_code=200)
+def get_genres_for_id(id:int):
+    db = Session()
+    result = GenresService(db).get_generes_for_id(id)
+    return JSONResponse(content=jsonable_encoder(result),status_code=200)
+
 
 #CREATE crear
 @genres_router.post('/genres',tags=['genres'],status_code=200)
