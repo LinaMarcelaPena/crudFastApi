@@ -8,7 +8,7 @@ class Actor(Base):
 
     __tablename__ = "actor"
 
-    id = Column(Integer,primary_key = True)
+    id = Column(Integer,primary_key = True,index = True)
     actor_first_name = Column(String)
     actor_last_name = Column(String)
     actor_gender = Column(String)

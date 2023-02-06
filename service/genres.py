@@ -2,6 +2,7 @@
 #importo el modelo de genres para poder usarlo aqui en el servicio le asigno el nombre de GenresModel que es 
 #el que voy a usar para llamar al servicio
 from models.genres import Genres as GenresModel
+from schemas.genres import Genres
 
 #nombre de la clase del servicio / en esta parte se realizan las conexiones a la base de datos  
 class GenresService ():
@@ -35,3 +36,13 @@ class GenresService ():
         self.db.commit()
         return
 
+    def put_genre(self,id:int, genre:Genres):
+        gen = self.db.query(GenresModel).filter(GenresModel.id == id).first()
+        gen.gen_title = genre.gen_title.capitalize()
+        self.db.commit()
+        return
+
+    def delete_genres(self, id: int):
+        self.db.query(GenresModel).filter(GenresModel.id == id).delete()
+        self.db.commit()
+        return
