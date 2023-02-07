@@ -46,3 +46,5 @@ class GenresService ():
         self.db.query(GenresModel).filter(GenresModel.id == id).delete()
         self.db.commit()
         return
+
+        

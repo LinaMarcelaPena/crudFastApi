@@ -15,6 +15,8 @@ from routers.movie_cast import movie_cast_router
 #importo la ruta para poder usarla en el main
 from routers.genres import genres_router
 from routers.director import director_router
+from routers.movie_director import Movdirector_router
+from routers.reviewer import reviewer_router
 
 app = FastAPI()
 app.title = "Mi app con FastAPI"
@@ -28,6 +30,8 @@ app.include_router(movie_cast_router)
 #incluir la ruta
 app.include_router(genres_router)
 app.include_router(director_router)
+app.include_router(Movdirector_router)
+app.include_router(reviewer_router)
 
 
 
@@ -35,7 +39,6 @@ Base.metadata.create_all(bind=engine)
 
 
 @app.get('/',tags=['home'])
-
 
 
 def message():

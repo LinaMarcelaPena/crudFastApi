@@ -7,7 +7,11 @@ class MovieCastService():
     def __init__(self,db) -> None:
         self.db = db
 
-    def get_movie_cast(self,id_movie:int):
+    def get_movie_cast(self):
+        result = self.db.query(MovieCastModel).all()
+        return result
+
+    def get_movie_cast_id(self,id_movie:int):
         result = self.db.query(MovieCastModel).filter(MovieCastModel.movie_id == id_movie).all()
         return result
 
